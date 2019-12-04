@@ -14,11 +14,12 @@ public class Employe extends Thread{
 	
 	public Employe (Buffet buffet) {
 		this.buffet=buffet;
+		this.setDaemon(true);
 		stockerBuffet();
 	}
 	
 	public void stockerBuffet(){
-		for(int i = 0; i<4; i++) {
+		for(int i = 0; i < 4; i++) {
 			switch (i) {
 			case 0:
 				try {
@@ -27,7 +28,7 @@ public class Employe extends Thread{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				buffet.stockerPoisson();
+				buffet.stocker(i);
 				semPoisson.release();				
 			case 1:
 				try {
@@ -36,7 +37,7 @@ public class Employe extends Thread{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				buffet.stockerViande();
+				buffet.stocker(i);
 				semViande.release();
 			case 2:
 				try {
@@ -45,7 +46,7 @@ public class Employe extends Thread{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				buffet.stockerLegume();
+				buffet.stocker(i);
 				semLegume.release();	
 			case 3:
 				try {
@@ -54,8 +55,9 @@ public class Employe extends Thread{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				buffet.stockerNouille();
-				semNouille.release();		
+				buffet.stocker(i);
+				semNouille.release();
+				i=-1;
 			}	
 		}
 	}
