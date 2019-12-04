@@ -3,7 +3,7 @@ package projet;
 public class Restaurant {
 	
 	static final int CLIENTS_MAX = 25;
-	private static int nbClients;
+	private int nbClients;
 	private Client[] clients;
 	private Buffet buffet;
 	private Stand stand;
@@ -23,21 +23,23 @@ public class Restaurant {
 		}
 	}
 	
-	public void addClients() {
-			nbClients++;
-	}
-	
-	public boolean remplis() {
-		if(nbClients < CLIENTS_MAX) {
-			return false;
-		} else {
-			return true;
+	public synchronized void addClients() {
+		if(CLIENTS_MAX-nbClients<0) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		nbClients++;
 	}
 	
 	
-	public void removeClient() {
+	public synchronized void removeClient() {
 		nbClients --;
+		notify();	
+
 	}
 	
 	public static void main(String args[]) {

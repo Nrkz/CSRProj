@@ -30,14 +30,6 @@ public class Client extends Thread{
 	}
 	
 	public synchronized void entrerRestaurant(){		
-		if(restau.remplis()) { 
-			try {
-				wait();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 		restau.addClients();
 	}
 
@@ -55,9 +47,8 @@ public class Client extends Thread{
 		}
 	}
 
-	public synchronized void sortir() {
+	public void sortir() {
 		restau.removeClient();
-		notifyAll();	
 	}
 
 	public void prendrePortion() {
