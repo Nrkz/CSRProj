@@ -26,13 +26,13 @@ public class Client extends Thread{
 					e.printStackTrace();
 				}
 				try {
-					sleep(200);
+					sleep(200+alea()*100);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				semPoisson.release();
-				buffet.destocker(100,i);
+				buffet.destocker(alea()*100,i);
 			case 1:
 				try {
 					semViande.acquire();
@@ -41,13 +41,13 @@ public class Client extends Thread{
 					e.printStackTrace();
 				}
 				try {
-					sleep(200);
+					sleep(200+alea()*100);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				semViande.release();
-				buffet.destocker(100,i);
+				buffet.destocker(alea()*100,i);
 			case 2 :
 				try {
 					semLegume.acquire();
@@ -56,13 +56,13 @@ public class Client extends Thread{
 					e.printStackTrace();
 				}
 				try {
-					sleep(200);
+					sleep(200+alea()*100);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				semLegume.release();
-				buffet.destocker(100,i);
+				buffet.destocker(alea()*100,i);
 			case 3:
 				try {
 					semNouille.acquire();
@@ -71,16 +71,20 @@ public class Client extends Thread{
 					e.printStackTrace();
 				}
 				try {
-					sleep(200);
+					sleep(200+alea()*100);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				semNouille.release();
-				buffet.destocker(100,i);
+				buffet.destocker(alea()*100,i);
 			}
 			
 		}
 		
+	}
+	public int alea() {
+        int rand = (int) Math.random();
+        return rand;
 	}
 }
