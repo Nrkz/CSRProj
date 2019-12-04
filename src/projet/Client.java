@@ -1,53 +1,33 @@
 package projet;
 
-public class Client extends Thread {
-	
+import java.util.concurrent.Semaphore;
 
+public class Client extends Thread{
 
-	public Client() {
-		
-		while (!entreRestaurant()) {
-			try {
-				wait();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		int rand;
-		for (int i = 0 ; i < 4 ; i++) {
-			rand = (int) Math.random() * 100;
-			/*
-			 * Pour chaque rand enlever X ingrédients au bac i 
-			 * 
-			 */
-		}
-		
-		//faireCuire();
-		
-		//manger();
-		
-		sortirRestaurant();
-		
-		
-		
-		
+	Semaphore semPoisson;
+	Semaphore semViande;
+	Semaphore semLegume;
+	Semaphore semNouille;
+	private Buffet buffet;
+	
+	public Client (Buffet buffet) {
+		this.buffet=buffet;
 	}
 	
-	public boolean entreRestaurant() {
-		return Restaurant.addClients();
-	}
-	/*
-	private boolean faireCuire() {
-		Cuisinier.cuire();
-	}
-	*/
-	private void manger() throws InterruptedException {
-		sleep(1000);
-		
-	}
-	
-	private void sortirRestaurant() {
-		Restaurant.removeClient();
+	public void prendrePortion() {
+		try {
+			semPoisson.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			sleep(200);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		semPoisson.release();
+		buffet.destockerPoisson(100);
 	}
 }
