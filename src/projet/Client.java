@@ -13,7 +13,6 @@ public class Client extends Thread{
 	
 	public Client (Buffet buffet, Stand stand) {
 		this.buffet=buffet;
-<<<<<<< HEAD
 		this.stand = stand;
 		prendrePortion();
 		cuirePlat();
@@ -37,9 +36,6 @@ public class Client extends Thread{
 	
 	public void sortir() {
 		Restaurant.removeClient();
-=======
-		
->>>>>>> Quentin
 	}
 	
 	public void prendrePortion() {
