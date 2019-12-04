@@ -15,7 +15,10 @@ public class Employe extends Thread{
 	public Employe (Buffet buffet) {
 		this.buffet=buffet;
 		this.setDaemon(true);
-		
+		this.semPoisson = new Semaphore(Restaurant.CLIENTS_MAX);
+		this.semViande = new Semaphore(Restaurant.CLIENTS_MAX);
+		this.semLegume = new Semaphore(Restaurant.CLIENTS_MAX);
+		this.semNouille = new Semaphore(Restaurant.CLIENTS_MAX);
 	}
 	
 	public void run(){

@@ -17,6 +17,10 @@ public class Client extends Thread{
 		this.buffet=buffet;
 		this.stand = stand;
 		this.restau = restau;
+		this.semPoisson = new Semaphore(Restaurant.CLIENTS_MAX);
+		this.semViande = new Semaphore(Restaurant.CLIENTS_MAX);
+		this.semLegume = new Semaphore(Restaurant.CLIENTS_MAX);
+		this.semNouille = new Semaphore(Restaurant.CLIENTS_MAX);		
 	}
 
 	public void run() {
@@ -27,8 +31,9 @@ public class Client extends Thread{
 		sortir();
 	}
 
-	public void entrerRestaurant(){
+	public synchronized void entrerRestaurant(){
 		if(!estEntre()) {
+			System.out.println("Bonjour !");
 			try {
 				wait();
 			} catch (InterruptedException e) {
@@ -57,7 +62,7 @@ public class Client extends Thread{
 		}
 	}
 
-	public void sortir() {
+	public synchronized void sortir() {
 		Restaurant.removeClient();
 		notify();
 	}
@@ -126,9 +131,7 @@ public class Client extends Thread{
 				semNouille.release();
 				buffet.destocker(alea()*100,i);
 			}
-
 		}
-
 	}
 	public int alea() {
 		int rand = (int) Math.random();

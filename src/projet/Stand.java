@@ -5,11 +5,11 @@ public class Stand {
 	
 	public Stand(){}
 	
-	public void cuire() {
+	public synchronized void cuire() {
 		notify();
 	}
 	
-	public void cuissonQueue() {
+	public synchronized void cuissonQueue() {
 		try {
 			wait();			
 		} catch (InterruptedException e) {

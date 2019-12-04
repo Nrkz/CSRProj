@@ -37,5 +37,13 @@ public class Restaurant {
 	public static void removeClient() {
 		nbClients --;
 	}
-
+	
+	public static void main(String args[]) {
+		Restaurant restau = new Restaurant();
+		for (int i = 0; i < restau.clients.length; i ++) {
+			restau.clients[i].start();
+		}
+		restau.employe.start();
+		restau.cuisto.start();
+	}
 }
