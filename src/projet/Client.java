@@ -11,9 +11,12 @@ public class Client extends Thread{
 	private Buffet buffet;
 	private Stand stand;
 	private Restaurant restau;
+	private int i;
+
 	
 
-	public Client (Buffet buffet, Stand stand,Restaurant restau) {
+	public Client (Buffet buffet, Stand stand,Restaurant restau,int i) {
+		this.i = i;
 		this.buffet=buffet;
 		this.stand = stand;
 		this.restau = restau;
@@ -24,16 +27,20 @@ public class Client extends Thread{
 	}
 
 	public void run() {
-		entrerRestaurant();
+		entrerRestaurant();	
 		prendrePortion();
 		cuirePlat();
-		mangerPlat();
+		try {
+			sleep(2000);
+		} catch (InterruptedException e) {
+			System.out.println("bug");
+			e.printStackTrace();
+		}
 		sortir();
 	}
 
 	public synchronized void entrerRestaurant(){
-		if(!estEntre()) {
-			System.out.println("Bonjour !");
+		if(restau.remplis()) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
@@ -41,30 +48,29 @@ public class Client extends Thread{
 				e.printStackTrace();
 			}
 		}
-	}
+		System.out.println("Bonjour !" + this.i);
+		restau.addClients();
+	}	
 
-
-	public boolean estEntre() {
-		return Restaurant.addClients();
-	}
 
 
 	public void cuirePlat() {
-		stand.cuissonQueue();
+		stand.cuire();
 	}
 
 	public void mangerPlat() {
 		try {
-			sleep(3000);
+			sleep(30000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println("CAFAITPAS 3 SECONOONONONDES");
 		}
 	}
 
 	public synchronized void sortir() {
 		Restaurant.removeClient();
-		notify();
+		System.out.println("cc" + this.i);
+		notifyAll();
 	}
 
 	public void prendrePortion() {

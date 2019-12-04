@@ -1,6 +1,5 @@
 package projet;
 
-import java.util.concurrent.Semaphore;
 
 public class Buffet {
 

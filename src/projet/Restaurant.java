@@ -19,17 +19,20 @@ public class Restaurant {
 		this.clients = new Client[50];
 		
 		for (int i = 0; i < clients.length; i ++) {
-			clients[i] = new Client(this.buffet, this.stand, this);
+			clients[i] = new Client(this.buffet, this.stand, this, i);
 		}
 	}
 	
-	public static boolean addClients() {
+	public void addClients() {
+		nbClients++;
+	}
+	
+	public boolean remplis() {
 		if(nbClients < CLIENTS_MAX) {
-			nbClients++;
-			return true;
+			return false;
 		}
 		else {
-			return false;
+			return true;
 		}
 	}
 	
@@ -39,6 +42,8 @@ public class Restaurant {
 	}
 	
 	public static void main(String args[]) {
+		
+		
 		Restaurant restau = new Restaurant();
 		for (int i = 0; i < restau.clients.length; i ++) {
 			restau.clients[i].start();
