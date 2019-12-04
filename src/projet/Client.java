@@ -9,9 +9,33 @@ public class Client extends Thread{
 	Semaphore semLegume;
 	Semaphore semNouille;
 	private Buffet buffet;
+	private Stand stand;
 	
-	public Client (Buffet buffet) {
+	public Client (Buffet buffet, Stand stand) {
 		this.buffet=buffet;
+		this.stand = stand;
+		prendrePortion();
+		cuirePlat();
+		mangerPlat();
+		sortir();
+		
+	}
+	
+	public synchronized void cuirePlat() {
+		stand.cuissonQueue();
+	}
+	
+	public void mangerPlat() {
+		try {
+			sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void sortir() {
+		Restaurant.removeClient();
 	}
 	
 	public void prendrePortion() {
