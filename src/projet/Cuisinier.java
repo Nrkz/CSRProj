@@ -10,8 +10,15 @@ public class Cuisinier extends Thread{
     }
     
     public void run() {
-    	stand.cuire();
-                
+    	while(true) {
+    		try {
+				sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		stand.cuire();
+    	}        
     }
 	
 }

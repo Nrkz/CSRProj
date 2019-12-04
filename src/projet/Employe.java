@@ -6,19 +6,11 @@ public class Employe extends Thread{
 
 	
 	private Buffet buffet;
-	Semaphore semPoisson;
-	Semaphore semViande;
-	Semaphore semLegume;
-	Semaphore semNouille;
 	
 	
 	public Employe (Buffet buffet) {
 		this.buffet=buffet;
 		this.setDaemon(true);
-		this.semPoisson = new Semaphore(Restaurant.CLIENTS_MAX);
-		this.semViande = new Semaphore(Restaurant.CLIENTS_MAX);
-		this.semLegume = new Semaphore(Restaurant.CLIENTS_MAX);
-		this.semNouille = new Semaphore(Restaurant.CLIENTS_MAX);
 	}
 	
 	public void run(){
@@ -26,40 +18,40 @@ public class Employe extends Thread{
 			switch (i) {
 			case 0:
 				try {
-					semPoisson.acquire();
+					buffet.semPoisson.acquire();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				buffet.stocker(i);
-				semPoisson.release();				
+				buffet.semPoisson.release();
 			case 1:
 				try {
-					semViande.acquire();
+					buffet.semViande.acquire();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				buffet.stocker(i);
-				semViande.release();
+				buffet.semViande.release();
 			case 2:
 				try {
-					semLegume.acquire();
+					buffet.semLegume.acquire();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				buffet.stocker(i);
-				semLegume.release();	
+				buffet.semLegume.release();
 			case 3:
 				try {
-					semNouille.acquire();
+					buffet.semNouille.acquire();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				buffet.stocker(i);
-				semNouille.release();
+				buffet.semNouille.release();
 				i=-1;
 			}	
 		}

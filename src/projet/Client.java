@@ -4,36 +4,33 @@ import java.util.concurrent.Semaphore;
 
 public class Client extends Thread{
 
-	Semaphore semPoisson;
-	Semaphore semViande;
-	Semaphore semLegume;
-	Semaphore semNouille;
 	private Buffet buffet;
 	private Stand stand;
 	private Restaurant restau;
+	int i;
 	
 
-	public Client (Buffet buffet, Stand stand,Restaurant restau) {
+	public Client (Buffet buffet, Stand stand,Restaurant restau,int i) {
 		this.buffet=buffet;
 		this.stand = stand;
 		this.restau = restau;
-		this.semPoisson = new Semaphore(Restaurant.CLIENTS_MAX);
-		this.semViande = new Semaphore(Restaurant.CLIENTS_MAX);
-		this.semLegume = new Semaphore(Restaurant.CLIENTS_MAX);
-		this.semNouille = new Semaphore(Restaurant.CLIENTS_MAX);		
+		this.i=i;
 	}
 
 	public void run() {
-		entrerRestaurant();
+		
+		entrerRestaurant();		
+		System.out.println("Entree reussi pour thread :"+i);
 		prendrePortion();
+		System.out.println("Prendre Portion :"+i);
 		cuirePlat();
 		mangerPlat();
 		sortir();
+		System.out.println("Sortie reussi ");
 	}
-
-	public synchronized void entrerRestaurant(){
-		if(!estEntre()) {
-			System.out.println("Bonjour !");
+	
+	public synchronized void entrerRestaurant(){		
+		if(restau.remplis()) { 
 			try {
 				wait();
 			} catch (InterruptedException e) {
@@ -41,11 +38,7 @@ public class Client extends Thread{
 				e.printStackTrace();
 			}
 		}
-	}
-
-
-	public boolean estEntre() {
-		return Restaurant.addClients();
+		restau.addClients();
 	}
 
 
@@ -63,8 +56,8 @@ public class Client extends Thread{
 	}
 
 	public synchronized void sortir() {
-		Restaurant.removeClient();
-		notify();
+		restau.removeClient();
+		notifyAll();	
 	}
 
 	public void prendrePortion() {
@@ -72,10 +65,10 @@ public class Client extends Thread{
 			switch (i) {
 			case 0:
 				try {
-					semPoisson.acquire();
-				} catch (InterruptedException e) {
+					buffet.semPoisson.acquire();
+				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					e1.printStackTrace();
 				}
 				try {
 					sleep(200+alea()*100);
@@ -83,14 +76,14 @@ public class Client extends Thread{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				semPoisson.release();
+				buffet.semPoisson.release();
 				buffet.destocker(alea()*100,i);
 			case 1:
 				try {
-					semViande.acquire();
-				} catch (InterruptedException e) {
+					buffet.semViande.acquire();
+				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					e1.printStackTrace();
 				}
 				try {
 					sleep(200+alea()*100);
@@ -98,14 +91,14 @@ public class Client extends Thread{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				semViande.release();
+				buffet.semViande.release();
 				buffet.destocker(alea()*100,i);
 			case 2 :
 				try {
-					semLegume.acquire();
-				} catch (InterruptedException e) {
+					buffet.semLegume.acquire();
+				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					e1.printStackTrace();
 				}
 				try {
 					sleep(200+alea()*100);
@@ -113,14 +106,14 @@ public class Client extends Thread{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				semLegume.release();
+				buffet.semLegume.release();
 				buffet.destocker(alea()*100,i);
 			case 3:
 				try {
-					semNouille.acquire();
-				} catch (InterruptedException e) {
+					buffet.semNouille.acquire();
+				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					e1.printStackTrace();
 				}
 				try {
 					sleep(200+alea()*100);
@@ -128,7 +121,7 @@ public class Client extends Thread{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				semNouille.release();
+				buffet.semNouille.release();
 				buffet.destocker(alea()*100,i);
 			}
 		}
@@ -137,4 +130,5 @@ public class Client extends Thread{
 		int rand = (int) Math.random();
 		return rand;
 	}
+	
 }

@@ -11,7 +11,7 @@ public class Stand {
 	
 	public synchronized void cuissonQueue() {
 		try {
-			wait();			
+			wait();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

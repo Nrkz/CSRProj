@@ -8,12 +8,20 @@ public class Buffet {
 	private int viandecru;
 	private int legumecru;
 	private int nouilles;
+	Semaphore semPoisson;
+	Semaphore semViande;
+	Semaphore semLegume;
+	Semaphore semNouille;
 	
 	public Buffet () {
 		this.poissoncru = 1000;
 		this.viandecru = 1000;
 		this.legumecru = 1000;
 		this.nouilles = 1000;
+		this.semPoisson = new Semaphore(1);
+		this.semViande = new Semaphore(1);
+		this.semLegume = new Semaphore(1);
+		this.semNouille = new Semaphore(1);	
 	}
 	
 	public int getPoisson() {
