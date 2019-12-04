@@ -15,10 +15,10 @@ public class Employe extends Thread{
 	public Employe (Buffet buffet) {
 		this.buffet=buffet;
 		this.setDaemon(true);
-		stockerBuffet();
+		
 	}
 	
-	public void stockerBuffet(){
+	public void run(){
 		for(int i = 0; i < 4; i++) {
 			switch (i) {
 			case 0:

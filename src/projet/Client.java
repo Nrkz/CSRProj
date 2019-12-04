@@ -10,21 +10,44 @@ public class Client extends Thread{
 	Semaphore semNouille;
 	private Buffet buffet;
 	private Stand stand;
+	private Restaurant restau;
 	
-	public Client (Buffet buffet, Stand stand) {
+
+	public Client (Buffet buffet, Stand stand,Restaurant restau) {
 		this.buffet=buffet;
 		this.stand = stand;
+		this.restau = restau;
+	}
+
+	public void run() {
+		entrerRestaurant();
 		prendrePortion();
 		cuirePlat();
 		mangerPlat();
 		sortir();
-		
 	}
-	
-	public synchronized void cuirePlat() {
+
+	public void entrerRestaurant(){
+		if(!estEntre()) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+
+	public boolean estEntre() {
+		return Restaurant.addClients();
+	}
+
+
+	public void cuirePlat() {
 		stand.cuissonQueue();
 	}
-	
+
 	public void mangerPlat() {
 		try {
 			sleep(3000);
@@ -33,11 +56,12 @@ public class Client extends Thread{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void sortir() {
 		Restaurant.removeClient();
+		notify();
 	}
-	
+
 	public void prendrePortion() {
 		for(int i = 0; i<4 ; i++) {
 			switch (i) {
@@ -102,12 +126,12 @@ public class Client extends Thread{
 				semNouille.release();
 				buffet.destocker(alea()*100,i);
 			}
-			
+
 		}
-		
+
 	}
 	public int alea() {
-        int rand = (int) Math.random();
-        return rand;
+		int rand = (int) Math.random();
+		return rand;
 	}
 }

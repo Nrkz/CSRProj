@@ -19,7 +19,7 @@ public class Restaurant {
 		this.clients = new Client[50];
 		
 		for (int i = 0; i < clients.length; i ++) {
-			clients[i] = new Client(this.buffet, this.stand);
+			clients[i] = new Client(this.buffet, this.stand, this);
 		}
 	}
 	

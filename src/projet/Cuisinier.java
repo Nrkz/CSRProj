@@ -4,12 +4,12 @@ public class Cuisinier extends Thread{
 	private Stand stand;
     
     public Cuisinier(Stand stand) {
-    	cuire();
     	this.stand = stand;
+    	this.setDaemon(true);
         
     }
     
-    public synchronized void cuire() {
+    public void run() {
     	stand.cuire();
                 
     }
