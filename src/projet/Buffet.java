@@ -40,7 +40,7 @@ public class Buffet {
 		return this.nouilles;
 	}
 
-	public synchronized void stocker(int i) {
+	public void stocker(int i) {
 		switch (i) {
 			case 0:
 				this.poissoncru = 1000;
@@ -57,23 +57,23 @@ public class Buffet {
 		}
 	}
 	
-	public synchronized void destocker(int qt, int i) {
+	public void destocker(int qt, int i) {
 		switch (i) {
 			case 0:
 				this.poissoncru = getPoisson() - qt;
-				//System.out.println("Qt Poisson :" + this.poissoncru);
+				System.out.println("Qt Poisson :" + this.poissoncru);
 				break;
 			case 1:
 				this.viandecru = getViande() - qt;
-				//System.out.println("Qt Viande :" + this.viandecru);
+				System.out.println("Qt Viande :" + this.viandecru);
 				break;
 			case 2:
 				this.legumecru = getLegume() - qt;
-				//System.out.println("Qt Legume :" + this.legumecru);
+				System.out.println("Qt Legume :" + this.legumecru);
 				break;
 			case 3:
 				this.nouilles = getNouille()- qt;
-				//System.out.println("Qt Nouille :" +this.nouilles);
+				System.out.println("Qt Nouille :" +this.nouilles);
 				break;
 		}
 	}
