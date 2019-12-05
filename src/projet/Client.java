@@ -22,7 +22,7 @@ public class Client extends Thread{
 		entrerRestaurant();		
 		//System.out.println("Entree reussi pour thread :"+i);
 		prendrePortion();
-		System.out.println("Prendre Portion :"+i);
+		//System.out.println("Prendre Portion :"+i);
 		cuirePlat();
 		mangerPlat();
 		sortir();
