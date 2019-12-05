@@ -1,8 +1,7 @@
 package projet;
 
 public class Stand {
-	
-	
+		
 	public Stand(){}
 	
 	public synchronized void cuire() {
@@ -16,5 +15,6 @@ public class Stand {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 }

@@ -1,6 +1,5 @@
 package projet;
 
-import java.util.concurrent.Semaphore;
 
 public class Employe extends Thread{
 
@@ -12,48 +11,38 @@ public class Employe extends Thread{
 		this.buffet=buffet;
 		this.setDaemon(true);
 	}
-	
 	public void run(){
-		for(int i = 0; i < 4; i++) {
+
+		for(int i =0;i<4;i++) {
+
 			switch (i) {
+			
 			case 0:
-				try {
-					buffet.semPoisson.acquire();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if(buffet.getPoisson() < 100) {
+					buffet.stocker(i);
+					buffet.semPoisson.release(0);
 				}
-				buffet.stocker(i);
-				buffet.semPoisson.release();
+				break;
 			case 1:
-				try {
-					buffet.semViande.acquire();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if(buffet.getViande() < 100) {
+					buffet.stocker(i);
+					buffet.semViande.release(0);
 				}
-				buffet.stocker(i);
-				buffet.semViande.release();
+				break;
 			case 2:
-				try {
-					buffet.semLegume.acquire();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if(buffet.getLegume() < 100) {
+					buffet.stocker(i);
+					buffet.semLegume.release(0);
 				}
-				buffet.stocker(i);
-				buffet.semLegume.release();
+				break;
 			case 3:
-				try {
-					buffet.semNouille.acquire();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if(buffet.getNouille() < 100) {
+					buffet.stocker(i);
+					buffet.semNouille.release(0);
 				}
-				buffet.stocker(i);
-				buffet.semNouille.release();
 				i=-1;
-			}	
+				break;
+			}
 		}
 	}
 }

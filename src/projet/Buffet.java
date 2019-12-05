@@ -40,75 +40,41 @@ public class Buffet {
 		return this.nouilles;
 	}
 
-	public void stocker(int i) {
+	public synchronized void stocker(int i) {
 		switch (i) {
 			case 0:
-				if(getPoisson() < 100) {
-					this.poissoncru = 1000;
-					notify();
-				}
+				this.poissoncru = 1000;
 				break;
 			case 1:
-				if(getViande() < 100) {
-					this.viandecru = 1000;
-					notify();
-				}
+				this.viandecru = 1000;
 				break;
 			case 2:
-				if(getLegume() < 100) {
-					this.legumecru = 1000;
-					notify();
-				}
+				this.legumecru = 1000;
+				break;
 			case 3:
-				if(getNouille() < 100) {
-					this.nouilles = 1000;
-					notify();
-				}
+				this.nouilles = 1000;
+				break;
 		}
 	}
 	
-	public void destocker(int qt, int i) {
+	public synchronized void destocker(int qt, int i) {
 		switch (i) {
 			case 0:
-				if(getPoisson() - qt < 0) {
-					try {
-						wait();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
 				this.poissoncru = getPoisson() - qt;
+				System.out.println("Qt Poisson :" + this.poissoncru);
+				break;
 			case 1:
-				if(getViande() - qt < 0) {
-					try {
-						wait();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
 				this.viandecru = getViande() - qt;
+				System.out.println("Qt Viande :" + this.viandecru);
+				break;
 			case 2:
-				if(getLegume() - qt<0) {
-					try {
-						wait();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
 				this.legumecru = getLegume() - qt;
+				System.out.println("Qt Legume :" + this.legumecru);
+				break;
 			case 3:
-				if(getNouille() - qt <0) {
-					try {
-						wait();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
 				this.nouilles = getNouille()- qt;
+				System.out.println("Qt Nouille :" +this.nouilles);
+				break;
 		}
 	}
 }

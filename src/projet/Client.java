@@ -20,16 +20,16 @@ public class Client extends Thread{
 	public void run() {
 		
 		entrerRestaurant();		
-		System.out.println("Entree reussi pour thread :"+i);
+		//System.out.println("Entree reussi pour thread :"+i);
 		prendrePortion();
 		System.out.println("Prendre Portion :"+i);
 		cuirePlat();
 		mangerPlat();
 		sortir();
-		System.out.println("Sortie reussi ");
+		//System.out.println("Sortie reussi " +i);
 	}
 	
-	public synchronized void entrerRestaurant(){		
+	public void entrerRestaurant(){		
 		restau.addClients();
 	}
 
@@ -62,13 +62,22 @@ public class Client extends Thread{
 					e1.printStackTrace();
 				}
 				try {
-					sleep(200+alea()*100);
+					sleep((int)alea(300,200));
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				buffet.semPoisson.release();
-				buffet.destocker(alea()*100,i);
+				int varP =(int)alea(100,0);
+				if(buffet.getPoisson() - varP < 0) {
+					try {
+						buffet.semPoisson.acquire();
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				buffet.destocker(varP,i);
 			case 1:
 				try {
 					buffet.semViande.acquire();
@@ -77,13 +86,22 @@ public class Client extends Thread{
 					e1.printStackTrace();
 				}
 				try {
-					sleep(200+alea()*100);
+					sleep((int)alea(300,200));
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				buffet.semViande.release();
-				buffet.destocker(alea()*100,i);
+				int varV =(int)alea(100,0);
+				if(buffet.getViande() - varV < 0) {
+					try {
+						buffet.semViande.acquire();
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				buffet.destocker(varV,i);
 			case 2 :
 				try {
 					buffet.semLegume.acquire();
@@ -92,34 +110,46 @@ public class Client extends Thread{
 					e1.printStackTrace();
 				}
 				try {
-					sleep(200+alea()*100);
+					sleep((int)alea(300,200));
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				buffet.semLegume.release();
-				buffet.destocker(alea()*100,i);
-			case 3:
-				try {
-					buffet.semNouille.acquire();
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				int varL=(int)alea(100,0);
+				if(buffet.getLegume() - varL<0) {
+					try {
+						buffet.semLegume.acquire();
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
+				buffet.destocker(varL,i);
+			case 3:
+				
 				try {
-					sleep(200+alea()*100);
+					sleep((int)alea(300,200));
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				buffet.semNouille.release();
-				buffet.destocker(alea()*100,i);
+				int varN = (int)alea(100,0);
+				if(buffet.getNouille() - varN <0) {
+					try {
+						buffet.semNouille.acquire();
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				buffet.destocker(varN,i);
 			}
 		}
 	}
-	public int alea() {
-		int rand = (int) Math.random();
-		return rand;
+	public double alea(int max,int min) {
+		return Math.random()* (max - min) + min;
 	}
 	
 }
